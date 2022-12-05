@@ -6,11 +6,15 @@ use App\Domain\Posts\Contracts\IPostRepository;
 use App\Domain\Posts\Exceptions\PostRepositoryException;
 use App\Domain\Posts\Models\Post As PostEntity;
 use App\Domain\Posts\ValueObjects\Post;
+use App\Domain\User\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
 class PostRepository implements IPostRepository {
 
+	/**
+	 * @inheritDoc
+	 */
 	public function create(Post $post): void 
 	{
 		try {
@@ -31,9 +35,30 @@ class PostRepository implements IPostRepository {
 		Log::info("Post created for userID: {$post->getUserId()}");
 	}
 
- public function delete(): void
- {
-  
- }
+	/**
+	 * @inheritDoc
+	 */
+	public function getAllPosts(User $user): array
+	{
+		try {
+			$posts = $user->posts;
+		} catch (Exception $e) {
+			Log::error(
+				"Error fetching post for user {$user->id}",
+				[
+					'error' => $e->getMessage()
+				]
+			);
+			throw new PostRepositoryException(
+				"Failed fetching post with error: {$e->getMessage()} for userID: {$user->id}",
+				(int) $e->getCode(),
+				$e
+			);
+		}
+
+		return array_map(function(array $post) {
+			print_r($post); die('sdasad');
+		}, $posts->toArray());
+	}
  
 }

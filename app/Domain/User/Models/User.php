@@ -44,9 +44,9 @@ class User extends Authenticatable implements JWTSubject
 			'email_verified_at' => 'datetime',
 	];
 
-	public function hasPosts(): HasMany
+	public function posts(): HasMany
 	{
-		return $this->hasMany('App/Domain/Posts/Model/Post', 'user_id');
+		return $this->hasMany('App\Domain\Posts\Models\Post', 'user_id');
 	}
 
 	/**
