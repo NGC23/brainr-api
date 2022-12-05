@@ -43,7 +43,7 @@ class MediaPost extends Post {
 				'tags' => implode(',',$this->tags),
 				'upload' => $this->upload,
 				'type' => $this->type,
-				'userId' => $this->userId
+				'user_id' => $this->userId
 			];
 		}
 }

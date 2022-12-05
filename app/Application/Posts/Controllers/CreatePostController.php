@@ -56,10 +56,12 @@ class CreatePostController extends Controller {
 					Auth::id(),
 				);
 			case Post::DOCUMENT_TYPE:
-				//NA
-			break;
+				return new Post('','','','');
 			case Post::QA_TYPE:
-			break;
+				return new Post('','','','');
+			default:
+				return new Post('','','','');
+
 		}
 	}
 }

@@ -29,7 +29,7 @@ class CreatePostRequest extends FormRequest
 					'name' => 'required|max:255',
 					'description' => 'required|max:255',
 					'tags' => 'required',
-					'upload' => 'required',
+					'upload' => 'sometimes',
 					'type' => 'required',
         ];
     }
