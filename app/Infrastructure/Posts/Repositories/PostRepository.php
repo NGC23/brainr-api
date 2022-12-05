@@ -28,6 +28,7 @@ class PostRepository implements IPostRepository {
 				$e
 			);
 		}
+		Log::info("Post created for userID: {$post->getUserId()}");
 	}
 
  public function delete(): void
