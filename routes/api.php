@@ -38,6 +38,7 @@ Route::group([
 /*
 * POST ROUTES
 */
+$router->post('post/create/video', [CreatePostController::class, 'post'])->name('createPost');
 $router->post('posts/create', [CreatePostController::class, 'post'])->name('createPost');
 $router->get('posts', [GetCreatorPostsController::class, 'get'])->name('getCreatorPosts');
 

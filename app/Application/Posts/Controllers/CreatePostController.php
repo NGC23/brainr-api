@@ -8,9 +8,9 @@ use App\Domain\Posts\Exceptions\PostRepositoryException;
 use App\Domain\Posts\ValueObjects\MediaPost;
 use App\Domain\Posts\ValueObjects\Post;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class CreatePostController extends Controller {
 	public function __construct(
@@ -27,7 +27,7 @@ class CreatePostController extends Controller {
 		try {
 			$this->iPostRepository->create($post);
 		} catch (PostRepositoryException $e) {
-			return new JsonResponse([
+			return response()->json([
 					'success' => false,
 					'message' => "Issue adding post at this time",
 				], 
@@ -35,11 +35,17 @@ class CreatePostController extends Controller {
 			);
 		}
 
-		return new JsonResponse([],201);
+	 	return response()->json([],201);
 	}
 
 	private function determineTypePost(array $data): Post
 	{
+		$userId = (string) Auth::id();
+
+		if (empty($userId)) {
+			throw new Exception("user not authorised to take this action");
+		}
+
 		switch ($data['type']) {
 			case Post::VIDEO_TYPE:
 			case Post::IMAGE_TYPE:
@@ -47,13 +53,9 @@ class CreatePostController extends Controller {
 				return new MediaPost(
 					$data['name'],
 					$data['description'],
-					explode(
-						',', 
-						$data['tags']
-					),
 					$data['upload'],
 					$data['type'],
-					Auth::id(),
+					$userId
 				);
 			case Post::DOCUMENT_TYPE:
 				return new Post('','','','');

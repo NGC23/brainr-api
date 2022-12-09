@@ -55,10 +55,9 @@ class PostRepository implements IPostRepository {
 				$e
 			);
 		}
-
-		return array_map(function(array $post) {
-			print_r($post); die('sdasad');
-		}, $posts->toArray());
+		Log::info("Post retrieved for userID: {$user->getUserId()}");
+		//is it worth to cast to VO's when we will have to cast back to array to serve to user ?
+		return $posts->toArray();
 	}
  
 }
