@@ -24,7 +24,11 @@ class LoginController extends Controller
      //According to the docblocs and return types of function it suppose to return a bool, 
      // but this returns a string on success and bool on failure
      if (! $token = auth()->attempt($credentials)) {
-         return response()->json(['error' => 'Unauthorized'], 401);
+         return response()->json([
+					'error' => 'Unauthorized', 
+					'message' => 'Incorrect login details provided'
+				], 401
+			);
      }
      
      return $this->iTokenService->respondWithToken((string) $token);

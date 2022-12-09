@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Log;
 
 class SignUpController extends Controller
 {
- public function __construct(private IUserRepository $iUserRepository)
- {
- }
+ 	public function __construct(
+		private IUserRepository $iUserRepository
+	){ }
 
 	public function post(SignUpRequest $request): JsonResponse
 	{
@@ -35,7 +35,7 @@ class SignUpController extends Controller
 					'exception' => $e
 				]
 			);
-			return new JsonResponse(
+			return response()->json(
 				[
 					'success' => false,
 					'message' => $e->getMessage()
@@ -44,7 +44,7 @@ class SignUpController extends Controller
 			);
 		}
 		Log::info("User account created");
-		return new JsonResponse(
+		return response()->json(
 			[
 				'success' => true,
 				'message' => 'User signed up!'
