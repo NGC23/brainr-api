@@ -27,10 +27,10 @@ class CreatePostRequest extends FormRequest
     {
         return [
 					'name' => 'required|max:255',
-					'description' => 'required|max:255',
+					'caption' => 'required|max:255',
 					'tags' => 'required',
-					'upload' => 'sometimes',
-					'type' => 'required',
+					'upload' => 'required',
+					'type' => 'sometimes',
         ];
     }
 
@@ -40,6 +40,6 @@ class CreatePostRequest extends FormRequest
 				'success'   => false,
 				'message'   => 'Validation errors',
 				'data'      => $validator->errors()
-			]));
+			],400));
 		}
 }

@@ -7,6 +7,8 @@ use App\Application\Account\Controllers\LoginController;
 use App\Application\Account\Controllers\LogoutController;
 use App\Application\Account\Controllers\SignUpController;
 use App\Application\Posts\Controllers\CreatePostController;
+use App\Application\Posts\Controllers\CreateImagePostController;
+use App\Application\Posts\Controllers\CreateVideoPostController;
 use App\Application\Posts\Controllers\GetCreatorPostsController;
 
 /*
@@ -35,10 +37,13 @@ Route::group([
  $router->post('logout', [LogoutController::class, 'post']);
  $router->post('refresh', [AuthenticationTokenController::class, 'refresh']);
  $router->post('me', [AuthenticationTokenController::class, 'me']);
-/*
+
+ /*
 * POST ROUTES
 */
-$router->post('post/create/video', [CreatePostController::class, 'post'])->name('createPost');
+
+$router->post('post/create/image', [CreateImagePostController::class, 'post'])->name('createImagePost');
+$router->post('post/create/video', [CreateVideoPostController::class, 'post'])->name('createVideoPost');
 $router->post('posts/create', [CreatePostController::class, 'post'])->name('createPost');
 $router->get('posts', [GetCreatorPostsController::class, 'get'])->name('getCreatorPosts');
 

@@ -5,12 +5,13 @@ namespace App\Application\Posts\Controllers;
 use App\Application\Posts\Requests\CreatePostRequest;
 use App\Domain\Posts\Contracts\IPostRepository;
 use App\Domain\Posts\Exceptions\PostRepositoryException;
-use App\Domain\Posts\ValueObjects\VideoPost;
+use App\Domain\Posts\ValueObjects\MediaPost;
+use App\Domain\Posts\ValueObjects\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-//TODO: Start logging in consuming end
-class CreateVideoPostController extends Controller {
+
+class CreateImagePostController extends Controller {
 	public function __construct(
 		private IPostRepository $iPostRepository
 	)
@@ -34,15 +35,16 @@ class CreateVideoPostController extends Controller {
 
 		try {
 			$this->iPostRepository->create(
-				new VideoPost(
+				new MediaPost(
 					$data['name'],
 					$data['caption'],
+					$data['upload'],
+					Post::IMAGE_TYPE,
+					$userId,
 					explode(
 						',', 
 						$data['tags']
-					),
-					$data['upload'],
-					$userId
+					)
 				)
 			);
 		} catch (PostRepositoryException $e) {

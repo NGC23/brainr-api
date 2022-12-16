@@ -2,29 +2,41 @@
 
 namespace App\Domain\Posts\Contracts;
 use App\Domain\Posts\Exceptions\PostRepositoryException;
-use App\Domain\Posts\ValueObjects\Post;
+use App\Domain\Posts\ValueObjects\MediaPost;
 use App\Domain\User\Models\User;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface IPostRepository {
 
  /**
   * Creates a post
   *
-  * @param Post $post
+  * @param MediaPost $post
   * @return void
 	* @throws PostRepositoryException
   */
- public function create(Post $post): void;
+ public function create(MediaPost $post): void;
 
 
  /**
-	* Undocumented function
+	* Gets all posts
 	*
 	* @param User $user
 	* @return array
 	* @throws PostRepositoryException
 	*/
 	public function getAllPosts(User $user): array;
+
+	/**
+	 * Gets post by id
+	 *
+	 * @param User $user
+	 * @param string $postId
+	 * @return array
+	 * @throws PostRepositoryException
+	 */
+	public function getPostById(
+		User $user, 
+		string $postId
+	): array;
 
 }

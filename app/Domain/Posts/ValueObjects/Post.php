@@ -3,6 +3,7 @@
 namespace App\Domain\Posts\ValueObjects;
 
 use DateTimeImmutable;
+use Exception;
 
 class Post {
 	const VIDEO_TYPE = 'video';
@@ -48,10 +49,5 @@ class Post {
 		public function getUserId(): string
 		{
 				return $this->userId;
-		}
-
-		public function toArray(): array
-		{
-			return [];
 		}
 }

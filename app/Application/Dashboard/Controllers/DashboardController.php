@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace App\Application\Posts\Controllers;
+namespace App\Application\Dashboard\Controllers;
 
 use App\Domain\Posts\Contracts\IPostRepository;
 use App\Domain\Posts\Exceptions\PostRepositoryException;
-use App\Domain\User\Models\User;
+use App\Domain\Posts\ValueObjects\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-class GetCreatorPostsController extends Controller
+class DashboardController extends Controller
 {
  public function __construct(
 	private IPostRepository $iPostRepository
@@ -19,7 +19,6 @@ class GetCreatorPostsController extends Controller
 
  public function get(): JsonResponse
  {
-		$posts = [];
 		$user = auth()->user();
 
 		if (
@@ -33,19 +32,22 @@ class GetCreatorPostsController extends Controller
 		}
 
 		try {
-			$posts = $this->iPostRepository->getAllPosts($user);
+			$dashboardModel = new Dashboard(
+				(int) count($this->iPostRepository->getAllPosts($user)),
+				$user->email
+			);
 		} catch (PostRepositoryException $e) {
 			return response()->json(
 				[
 					'success' => false,
-					'message' => 'Cannot retrieve posts at this time',
+					'message' => 'Error loading dash content',
 				], 500);
 		}
 
 		return response()->json(
 			[
 				'success' => true,
-				'data' => $posts,
+				'data' => $dashboardModel->toArray(),
 			], 200);
  }
  
