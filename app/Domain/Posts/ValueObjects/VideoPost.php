@@ -5,20 +5,19 @@ namespace App\Domain\Posts\ValueObjects;
 use App\Domain\Posts\ValueObjects\MediaPost;
 
 class VideoPost extends MediaPost {
-	private const TYPE = 'video';
 	public function __construct(
 		private string $name,
 		private string $description,
 		private array $tags,
 		private string $upload,
-		private string $type,
-		private string $userId
+		private string $userId,
+		private string $type=Post::VIDEO_TYPE,
 	) {	
 		parent::__construct(
 			$name, 
 			$description, 
-			$upload, 
-			self::TYPE, 
+			$upload,
+			$type, 
 			$userId
 		);
 	}
@@ -36,6 +35,13 @@ class VideoPost extends MediaPost {
 		public function getUpload(): string
 		{
 				return $this->upload;
+		}
+
+		public function withUpload(string $uploadPath): self
+		{
+			$clone = clone $this;
+			$clone->upload = $uploadPath;
+			return $clone;
 		}
 
 		public function toArray(): array

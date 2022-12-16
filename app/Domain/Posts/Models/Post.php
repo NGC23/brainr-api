@@ -21,14 +21,14 @@ class Post extends Model
 		'name',
 		'description',
 		'tags',
-		'upload',
 		'open_post_till',
+		'upload',
 		'type',
 		'user_id'
 	];
 
-	public function hasUser(): HasOne
+	public function user(): HasOne
 	{
-		return $this->hasOne('App/Domain/User/Models/User');
+		return $this->hasOne('App\Domain\User\Models\User');
 	}
 }

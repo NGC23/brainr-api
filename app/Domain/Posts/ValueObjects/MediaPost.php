@@ -8,7 +8,8 @@ class MediaPost extends Post {
 		private string $description,
 		private string $upload,
 		private string $type,
-		private string $userId
+		private string $userId,
+		private array $tags=[],
 	)
 	{	
 		parent::__construct(
@@ -18,22 +19,36 @@ class MediaPost extends Post {
 			$userId
 		);
 	}
-		/**
-		 * Get the value of upload
-		 */
-		public function getUpload(): string
-		{
-				return $this->upload;
-		}
+	
+	public function getTags(): array
+	{
+			return $this->tags;
+	}
 
-		public function toArray(): array
-		{
-			return [
-				'name' => $this->name,
-				'description' => $this->description,
-				'upload' => $this->upload,
-				'type' => $this->type,
-				'user_id' => $this->userId
-			];
-		}
+	/**
+		* Get the value of upload
+		*/
+	public function getUpload(): string
+	{
+			return $this->upload;
+	}
+
+	public function withUpload(string $uploadPath): self
+	{
+		$clone = clone $this;
+		$clone->upload = $uploadPath;
+		return $clone;
+	}
+
+	public function toArray(): array
+	{
+		return [
+			'name' => $this->name,
+			'description' => $this->description,
+			'upload' => $this->upload,
+			'type' => $this->type,
+			'tags' => implode(',',$this->tags),
+			'user_id' => $this->userId
+		];
+	}
 }
