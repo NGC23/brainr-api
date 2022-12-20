@@ -3,6 +3,7 @@
 namespace App\Domain\Posts\Contracts;
 use App\Domain\Posts\Exceptions\PostRepositoryException;
 use App\Domain\Posts\ValueObjects\MediaPost;
+use App\Domain\Posts\ValueObjects\Post;
 use App\Domain\User\Models\User;
 
 interface IPostRepository {
@@ -31,12 +32,12 @@ interface IPostRepository {
 	 *
 	 * @param User $user
 	 * @param string $postId
-	 * @return array
+	 * @return Post
 	 * @throws PostRepositoryException
 	 */
 	public function getPostById(
 		User $user, 
 		string $postId
-	): array;
+	): Post;
 
 }

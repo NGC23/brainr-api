@@ -10,6 +10,7 @@ use App\Application\Posts\Controllers\CreatePostController;
 use App\Application\Posts\Controllers\CreateImagePostController;
 use App\Application\Posts\Controllers\CreateVideoPostController;
 use App\Application\Posts\Controllers\GetCreatorPostsController;
+use App\Application\Posts\Controllers\GetPostByIdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,7 @@ Route::group([
  $router->post('refresh', [AuthenticationTokenController::class, 'refresh']);
  $router->post('me', [AuthenticationTokenController::class, 'me']);
 
- /*
+/*
 * POST ROUTES
 */
 
@@ -46,6 +47,7 @@ $router->post('post/create/image', [CreateImagePostController::class, 'post'])->
 $router->post('post/create/video', [CreateVideoPostController::class, 'post'])->name('createVideoPost');
 $router->post('posts/create', [CreatePostController::class, 'post'])->name('createPost');
 $router->get('posts', [GetCreatorPostsController::class, 'get'])->name('getCreatorPosts');
+$router->get('posts/{postId}', [GetPostByIdController::class, 'get'])->name('getPostById');
 
 });
 
