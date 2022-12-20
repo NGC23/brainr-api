@@ -10,13 +10,15 @@ class MediaPost extends Post {
 		private string $type,
 		private string $userId,
 		private array $tags=[],
+		private ?string $id=null
 	)
 	{	
 		parent::__construct(
 			$name, 
 			$description, 
 			$type, 
-			$userId
+			$userId,
+			$id
 		);
 	}
 	
@@ -33,16 +35,17 @@ class MediaPost extends Post {
 			return $this->upload;
 	}
 
-	public function withUpload(string $uploadPath): self
+	public function withUpload(string $upload): self
 	{
 		$clone = clone $this;
-		$clone->upload = $uploadPath;
+		$clone->upload = $upload;
 		return $clone;
 	}
 
 	public function toArray(): array
 	{
 		return [
+			'id' => $this->id,
 			'name' => $this->name,
 			'description' => $this->description,
 			'upload' => $this->upload,

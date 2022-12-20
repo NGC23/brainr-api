@@ -78,7 +78,7 @@ class PostRepository implements IPostRepository {
 	public function getPostById(
 		User $user, 
 		string $postId
-	): array {
+	): Post {
 		try {
 			$post = $user->posts()->where('id', '=', $postId)->get();
 		} catch (Exception $e) {
@@ -94,16 +94,45 @@ class PostRepository implements IPostRepository {
 				$e
 			);
 		}
-		Log::info("Post retrieved for userID: {$user->id}");
+		Log::info("Post - {$postId} retrieved for userID: {$user->id}");
 		//is it worth to cast to VO's when we will have to cast back to array to serve to user ?
-		return $post->toArray();
+		return array_map(function (array $post) {
+			return new MediaPost(
+				$post['name'],
+				$post['description'],
+				$this->retrievePostMedia($post['upload']),
+				$post['type'],
+				$post['user_id'],
+				explode(',', $post['tags']),
+				$post['id']
+			);
+		}, $post->toArray())[0];
 	}
 
 
 	/*
-	* Extract all functions below to media repository
+	* //TODO: Extract all functions below to media repository
 	* 
 	*/
+
+	private function retrievePostMedia(string $fileName): string
+	{
+		Log::info("Retrieving post media - {$fileName}");
+
+		try {
+			$file = Storage::disk('local')->get($fileName);
+		} catch (Exception $e) {
+			Log::error("Could not retrieve post media - {$fileName}");
+			throw new PostRepositoryException(
+				"Could not retrive post Media", 
+				0, 
+				$e
+			);
+		}
+
+		Log::info("Retrieved post media - {$fileName}");
+		return base64_encode($file);
+	}
 
 	/*
 	* Returns filename
